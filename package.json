@@ -1,0 +1,52 @@
+{
+  "name": "@shekhar.raval/logger",
+  "version": "0.0.2",
+  "description": "Logger for microservices",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/**/*"
+  ],
+  "engines": {
+    "node": "12.0.0",
+    "npm": "6.0.0"
+  },
+  "scripts": {
+    "clean": "rimraf dist/",
+    "build": "npm run clean && tsc -p tsconfig.build.json",
+    "start": "ts-node -r tsconfig-paths/register src/index.ts",
+    "dev": "nodemon",
+    "pub": "npm version patch && npm run build && npm publish"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/raval-shekhar/rest-logger.git"
+  },
+  "keywords": [
+    "logger",
+    "pino",
+    "pino-http",
+    "microservices",
+    "typescript",
+    "rest-api"
+  ],
+  "author": "RAVAL SHEKHAR",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/raval-shekhar/rest-logger/issues"
+  },
+  "homepage": "https://github.com/raval-shekhar/rest-logger#readme",
+  "dependencies": {
+    "pino": "^6.11.1",
+    "pino-http": "^5.5.0",
+    "pino-pretty": "^4.5.0"
+  },
+  "devDependencies": {
+    "@types/pino-http": "^5.4.0",
+    "nodemon": "^2.0.7",
+    "rimraf": "^3.0.2",
+    "ts-node": "^9.1.1",
+    "tsconfig-paths": "^3.9.0",
+    "typescript": "^4.1.5"
+  }
+}
