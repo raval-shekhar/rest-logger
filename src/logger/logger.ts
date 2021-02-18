@@ -5,7 +5,7 @@ export class Logger {
   logger: pino.Logger;
 
   constructor(filename: string) {
-    const name = filename.split('/').pop() || '';
+    const name = filename.split('/').pop() || filename;
     this.logger = logger(name.toUpperCase());
   }
 

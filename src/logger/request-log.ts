@@ -21,7 +21,6 @@ export const ExpressLogger = () => PinoHttp({
       return httpRequest;
     },
     res: (res) => {
-      console.log(res);
       let httpRequest: any = {};
       httpRequest.status = res.statusCode
       return httpRequest;
