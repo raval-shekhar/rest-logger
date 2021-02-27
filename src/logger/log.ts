@@ -1,5 +1,24 @@
 import pino from 'pino';
 import os from 'os';
+// import { multistream } from 'pino-multi-stream';
+
+// const pinoElastic = require('pino-elasticsearch');
+
+// const streamToElastic = pinoElastic({
+//   node: 'http://localhost:9200',
+//   auth: {
+//     username: 'elastic',
+//     password: 'test'
+//   },
+//   'es-version': 7,
+//   'flush-bytes': 10,
+//   ecs: true,
+//   consistency: 'one',
+//   index: 'rest-logger',
+//   type: ['info', 'error', 'warn', 'debug']
+// });
+
+// const streams = [{ stream: process.stdout }, { stream: streamToElastic }];
 
 const Pino = (filename: string): pino.Logger => {
   return pino({

@@ -2,7 +2,7 @@ import pino from 'pino';
 import logger from './log';
 
 export class Logger {
-  logger: pino.Logger;
+  private logger: pino.Logger;
 
   constructor(filename: string) {
     this.logger = logger(filename.toUpperCase());

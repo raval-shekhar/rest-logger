@@ -7,10 +7,6 @@
   "files": [
     "dist/**/*"
   ],
-  "engines": {
-    "node": "12.0.0",
-    "npm": "6.0.0"
-  },
   "scripts": {
     "clean": "rimraf dist/",
     "build": "npm run clean && tsc -p tsconfig.build.json",
@@ -38,11 +34,14 @@
   "homepage": "https://github.com/raval-shekhar/rest-logger#readme",
   "dependencies": {
     "pino": "^6.11.1",
+    "pino-elasticsearch": "^5.4.0",
     "pino-http": "^5.5.0",
+    "pino-multi-stream": "^5.2.0",
     "pino-pretty": "^4.5.0"
   },
   "devDependencies": {
     "@types/pino-http": "^5.4.0",
+    "@types/pino-multi-stream": "^5.1.0",
     "nodemon": "^2.0.7",
     "rimraf": "^3.0.2",
     "ts-node": "^9.1.1",
