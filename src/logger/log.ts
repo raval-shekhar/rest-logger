@@ -1,8 +1,10 @@
 import pino from 'pino';
 import os from 'os';
-// import { multistream } from 'pino-multi-stream';
-
+import { v4 as uuid4 } from 'uuid';
+import { multistream } from 'pino-multi-stream';
 // const pinoElastic = require('pino-elasticsearch');
+
+import { getTraceId } from './correlation';
 
 // const streamToElastic = pinoElastic({
 //   node: 'http://localhost:9200',
@@ -18,7 +20,7 @@ import os from 'os';
 //   type: ['info', 'error', 'warn', 'debug']
 // });
 
-// const streams = [{ stream: process.stdout }, { stream: streamToElastic }];
+const streams = [{ stream: process.stdout }];
 
 const Pino = (filename: string): pino.Logger => {
   return pino({
@@ -27,24 +29,28 @@ const Pino = (filename: string): pino.Logger => {
     messageKey: 'message',
     base: {
       pid: process.pid,
-      host: os.hostname,
-      filename: filename,
-      app: process.env.APP_NAME || 'REST'
+      host: os.hostname(),
+      context: filename
     },
     prettifier: true,
     prettyPrint: {
       colorize: true,
       translateTime: 'yyyy-mm-dd HH:MM:ss.l',
       crlf: true,
-      ignore: 'pid,filename,app,message',
-      messageFormat: '[{filename}] - {message}'
+      ignore: 'pid,context,traceId,message,name,host',
+      messageFormat: (log) => {
+        return `(${log.pid} on ${log.host}) [${log.name}/${log.context}] [traceId=${log.traceId}] - ${log.message}`
+      }
     },
     enabled: true,
     formatters: {
       level: (level: string, number: number) => {
         return { level: level, number };
       },
+    },
+    mixin: () => {
+      return { traceId: getTraceId() || uuid4() }
     }
-  });
+  }, multistream(streams));
 }
 export default Pino;
