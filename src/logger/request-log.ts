@@ -1,5 +1,5 @@
 import PinoHttp from 'pino-http';
-import { Level } from 'pino';
+import pino, { Level } from 'pino';
 
 import Logger from './log';
 
@@ -7,18 +7,14 @@ export const ExpressLogger = () => {
   return PinoHttp({
     logger: Logger('HTTP'),
     serializers: {
-      error: (error) => {
-        return error;
-      },
+      err: pino.stdSerializers.err,
       req: (req) => {
         let httpRequest: any = {};
-        httpRequest.requestMethod = req.method
-        httpRequest.requestUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`
-        httpRequest.protocol = `HTTP/${req.httpVersion}`
-        httpRequest.remoteIp = req.ip.indexOf(':') >= 0 ? req.ip.substring(req.ip.lastIndexOf(':') + 1) : req.ip
-        httpRequest.requestSize = req.socket.bytesRead
-        httpRequest.userAgent = req.get('User-Agent')
-        httpRequest.referrer = req.get('Referrer');
+        httpRequest.method = req.method
+        httpRequest.url = `${req.headers['x-forwarded-proto']}://${req.headers['host']}:${req.headers['x-forwarded-port']}`;
+        httpRequest.protocol = `${req.headers['x-forwarded-proto']}`;
+        httpRequest.ip = `${req.headers['x-real-ip']}`
+        httpRequest.userAgent = req.headers['user-agent']
         return httpRequest;
       },
       res: (res) => {
