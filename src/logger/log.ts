@@ -37,7 +37,7 @@ const Pino = (filename: string): pino.Logger => {
       colorize: true,
       translateTime: 'yyyy-mm-dd HH:MM:ss.l',
       crlf: true,
-      ignore: 'pid,context,traceId,message,name,host',
+      ignore: 'pid,context,traceId,message,name,host,err',
       messageFormat: (log) => {
         return `(${log.pid} on ${log.host}) [${log.name}/${log.context}] [traceId=${log.traceId}] - ${log.message}`
       }

@@ -1,5 +1,5 @@
 import PinoHttp from 'pino-http';
-import pino, { Level } from 'pino';
+import { Level } from 'pino';
 
 import Logger from './log';
 
@@ -7,7 +7,6 @@ export const ExpressLogger = () => {
   return PinoHttp({
     logger: Logger('HTTP'),
     serializers: {
-      err: pino.stdSerializers.err,
       req: (req) => {
         let httpRequest: any = {};
         httpRequest.method = req.method
