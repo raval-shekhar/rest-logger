@@ -10,10 +10,10 @@ export const ExpressLogger = () => {
       req: (req) => {
         let httpRequest: any = {};
         httpRequest.method = req.method
-        httpRequest.url = `${req.headers['x-forwarded-proto']}://${req.headers['host']}:${req.headers['x-forwarded-port']}`;
-        httpRequest.protocol = `${req.headers['x-forwarded-proto']}`;
-        httpRequest.ip = `${req.headers['x-real-ip']}`
-        httpRequest.userAgent = req.headers['user-agent']
+        httpRequest.url = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
+        httpRequest.protocol = `${req.httpVersion}`;
+        httpRequest.ip = `${req.headers['x-real-ip'] || req.ip}`
+        httpRequest.userAgent = req.get('User-Agent')
         return httpRequest;
       },
       res: (res) => {
