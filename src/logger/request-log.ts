@@ -1,5 +1,6 @@
 import PinoHttp from 'pino-http';
 import { Level } from 'pino';
+import { Request, Response } from 'express';
 
 import Logger from './log';
 
@@ -7,7 +8,7 @@ export const ExpressLogger = () => {
   return PinoHttp({
     logger: Logger('HTTP'),
     serializers: {
-      req: (req) => {
+      req: (req: Request) => {
         let httpRequest: any = {};
         httpRequest.method = req.method
         httpRequest.url = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
@@ -16,7 +17,7 @@ export const ExpressLogger = () => {
         httpRequest.userAgent = req.get('User-Agent')
         return httpRequest;
       },
-      res: (res) => {
+      res: (res: Response) => {
         let httpRequest: any = {};
         httpRequest.status = res.statusCode
         return httpRequest;
