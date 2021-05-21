@@ -1,6 +1,6 @@
+import { HttpSerializer } from './class-based';
 import PinoHttp from 'pino-http';
 import { Level } from 'pino';
-import { Request, Response } from 'express';
 
 import Logger from './log';
 
@@ -8,20 +8,8 @@ export const ExpressLogger = () => {
   return PinoHttp({
     logger: Logger('HTTP'),
     serializers: {
-      req: (req: Request) => {
-        let httpRequest: any = {};
-        httpRequest.method = req.method
-        httpRequest.url = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
-        httpRequest.protocol = `${req.httpVersion}`;
-        httpRequest.ip = `${req.headers['x-real-ip'] || req.ip}`
-        httpRequest.userAgent = req.get('User-Agent')
-        return httpRequest;
-      },
-      res: (res: Response) => {
-        let httpRequest: any = {};
-        httpRequest.status = res.statusCode
-        return httpRequest;
-      }
+      req: HttpSerializer.request,
+      res: HttpSerializer.response,
     },
     customLogLevel: (res, _err) => {
       let level: Level = 'info';
